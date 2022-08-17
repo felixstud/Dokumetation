@@ -1,0 +1,57 @@
+% Zeilenabstand 1,5 --------------------------------------------------------
+\onehalfspacing
+
+
+% Seitenränder -------------------------------------------------------------
+\geometry{paper=a4paper,left=25mm,right=25mm,top=30mm,bottom=40mm}
+
+% Chapter weiter oben beginnen lassen
+\renewcommand*\chapterheadstartvskip{\vspace*{0cm}}
+
+% Kopf- und Fußzeilen ------------------------------------------------------
+\pagestyle{scrheadings}
+
+% Kopf- und Fußzeile auch auf Kapitelanfangsseiten -------------------------
+\renewcommand*{\chapterpagestyle}{scrheadings}
+
+% Schriftform der Kopfzeile ------------------------------------------------
+\renewcommand{\headfont}{\normalfont}
+
+% Kopfzeile ----------------------------------------------------------------
+\ihead{
+	%\parbox{10.0cm}{\normalsize{\titel}}\\
+	%\small{\untertitel}\\[2ex]
+	\textit{ \headmark}
+}
+\chead{
+		%\includegraphics[height=1.4cm]{Grafiken/firma}
+}
+\ohead{	
+	%\includegraphics[height=1.4cm]{Grafiken/ZF_Logo}
+	%\includegraphics[height=1.4cm]{Grafiken/Logo_PHWT.png}	
+}
+\setlength{\headheight}{21mm} % Höhe der Kopfzeile
+
+
+% Fußzeile -----------------------------------------------------------------
+\ifoot{
+	%\includegraphics[height=1.5cm]{Grafiken/Logo_PHWT.png}
+}
+\cfoot{}
+\ofoot{\pagemark}
+\setlength{\footheight}{15mm}
+
+
+% erzeugt ein wenig mehr Platz hinter einem Punkt --------------------------
+%\frenchspacing 
+
+% Schusterjungen und Hurenkinder vermeiden
+\clubpenalty = 10000
+\widowpenalty = 10000 
+\displaywidowpenalty = 10000
+
+
+%% Fußnoten fortlaufend durchnummerieren ------------------------------------
+%\counterwithout{footnote}{chapter}
+\setkomafont{section}{\large} 
+

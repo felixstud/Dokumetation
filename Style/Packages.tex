@@ -1,0 +1,173 @@
+% Anpassung des Seitenlayouts ----------------------------------------------
+% 	siehe Seitenstil.tex
+% --------------------------------------------------------------------------
+\usepackage[headsepline,automark]{scrlayer-scrpage}
+
+\usepackage[table]{xcolor} 
+\definecolor{colBackground}{rgb}{0.95, 0.95, 0.95}
+\definecolor{colKeyword}{rgb}{0, 0, 0.9}
+\definecolor{colComment}{rgb}{0, 0.6, 0}
+\definecolor{colString}{rgb}{0.8, 0, 0}
+
+\usepackage{listingsutf8}
+\lstset{language=C++,
+	basicstyle =\footnotesize\selectfont\ttfamily,
+	backgroundcolor=\color{colBackground},
+	keywordstyle=\color{colKeyword},
+	stringstyle=\color{colString},
+	showstringspaces=false,
+	commentstyle=\color{colComment},
+	breaklines=true,
+	numbers=left,
+	stepnumber=1,
+	numbersep=10pt,
+	tabsize=2,
+	captionpos=b,
+	extendedchars=true,
+	frame=single,
+	captionpos=t
+}
+
+\renewcommand{\lstlistingname}{Code} % Damit Codebeispiele mit Code betitelt werden.
+
+
+
+% Anpassung an Landessprache -----------------------------------------------
+% 	Verwendet globale Option german siehe \documentclass
+% --------------------------------------------------------------------------
+\usepackage[ngerman]{babel}
+\usepackage{pifont}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,units}
+\usepackage{esvect}
+\usepackage{wrapfig,caption, placeins}
+\captionsetup{
+	format = plain,
+	justification = centering,
+	labelsep = newline,
+	singlelinecheck = false,
+	labelfont = bf,
+	font = small
+}
+\usepackage{mathptmx,charter,helvet,courier}
+\usepackage[printonlyused]{acronym}
+\usepackage{wrapfig}
+
+% Umlaute ------------------------------------------------------------------
+% 		Umlaute/Sonderzeichen wie äöüß direkt im Quelltext verwenden (CodePage).
+%		Erlaubt automatische Trennung von Worten mit Umlauten.
+% --------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}			 	% "schöneres" ä
+\usepackage{textcomp} 		% Euro-Zeichen etc.
+\usepackage[german=quotes]{csquotes}
+
+
+
+% Verwendung von Blindtext zur Layout gestaltung -----------------------------------------------------
+\usepackage{blindtext}
+
+% Grafiken -----------------------------------------------------------------
+% 		Einbinden von Grafiken [draft oder final]
+% 		Option [draft] bindet Bilder nicht ein - auch globale Option
+% --------------------------------------------------------------------------
+\usepackage{graphicx}
+\graphicspath{{Bilder/}} 	% Dort liegen die Bilder des Dokuments
+\usepackage{subcaption}
+
+% Befehle aus AMSTeX für mathematische Symbole z.B. \boldsymbol \mathbb ----
+\usepackage{amsmath,amsfonts}
+
+% Für Index-Ausgabe; \printindex -------------------------------------------
+\usepackage{makeidx}
+
+% Einfache Definition der Zeilenabstände und Seitenränder etc. -------------
+\usepackage{setspace}
+\usepackage{geometry}
+
+
+%% Zum Umfließen von Bildern -------------------------------------------------
+\usepackage{floatflt}
+
+
+% Lange URLs umbrechen etc. -------------------------------------------------
+\usepackage{url}
+
+% f�r lange Tabellen
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{lscape}
+\usepackage{colortbl} %farbige hinterlegung
+
+
+% Spaltendefinition rechtsbündig mit definierter Breite ---------------------
+\newcolumntype{w}[1]{>{\raggedleft\hspace{0pt}}p{#1}}
+
+% Formatierung von Listen ändern
+\usepackage{paralist}
+% Standardeinstellungen:
+\setdefaultleftmargin{2.5em}{2.2em}{1.87em}{1.7em}{1em}{1em}
+
+%Zur Verwendung von BibLaTex
+\usepackage[style=numeric]{biblatex}
+\addbibresource{literatur.bib}
+
+% Zur Richtigen Verwendung von Einheiten
+\usepackage[locale=DE]{siunitx}
+
+\sisetup{
+	mode = text,
+	detect-family,
+	detect-weight,  
+	exponent-product = \cdot,
+	number-unit-separator=\text{\,},
+	output-decimal-marker={\text{,}},
+	%math-rm=\mathsf,
+	%text-rm=\sffamily,
+	range-phrase = { - }	
+}
+\DeclareSIUnit{\var}{var}
+
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{float}
+%\usepackage{subfig}
+
+
+% pdf-Optionen  --------------------------------------------------------------
+\usepackage[
+bookmarks,
+bookmarksopen=true,
+pdftitle={\titel},
+pdfauthor={\autor},
+pdfcreator={\autor},
+pdfsubject={\titel},
+pdfkeywords={\titel},
+colorlinks=true,
+%linkcolor=red, % einfache interne Verknüpfungen
+%anchorcolor=black,% Ankertext
+%citecolor=blue, % Verweise auf Literaturverzeichniseinträge im Text
+%filecolor=magenta, % Verkn�pfungen, die lokale Dateien �ffnen
+%menucolor=red, % Acrobat-Men�punkte
+%urlcolor=cyan, 
+% f�r die Druckversion k�nnen die Farben ausgeschaltet werden:
+linkcolor=black, % einfache interne Verkn�pfungen
+anchorcolor=black,% Ankertext
+citecolor=black, % Verweise auf Literaturverzeichniseintr�ge im Text
+filecolor=black, % Verkn�pfungen, die lokale Dateien �ffnen
+menucolor=black, % Acrobat-Men�punkte
+urlcolor=black, 
+%backref,
+%pagebackref,
+plainpages=false,% zur korrekten Erstellung der Bookmarks
+pdfpagelabels,% zur korrekten Erstellung der Bookmarks
+hypertexnames=false,% zur korrekten Erstellung der Bookmarks
+linktoc=all%Sowohl Seitenzahl als auch Text als Link
+]{hyperref}
+
+\addto\extrasngerman{\def
+\subsectionautorefname{Kapitel}
+} %Definition "Kapitel" bei autoref von subsection

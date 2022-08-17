@@ -1,0 +1,51 @@
+\documentclass[
+11pt,						% Schriftgröße
+DIV10,
+german,						% für Umlaute, Silbentrennung etc.
+paper=a4,					% Papierformat
+oneside,
+titlepage,					% es wird eine Titelseite verwendet
+parskip=half,				% Abstand zwischen Absätzen (halbe Zeile)
+headings=normal,			% Größe der Überschriften verkleinern
+listof=totoc,				% Verzeichnisse im Inhaltsverzeichnis aufführen
+bibliography=totoc,			% Literaturverzeichnis im Inhaltsverzeichnis aufführen
+numbers=noenddot,			% Kapitelnummern ohne Punkt		
+]{scrreprt}
+
+\usepackage[utf8]{inputenc}
+\input{style/_Meta}
+\input{style/Packages}
+\input{style/Seitenstil}
+
+
+\begin{document}
+	
+\setcounter{tocdepth}{1} % Tiefe des Inhaltsverzeichnisses definiert
+
+\input{style/Deckblatt}
+\clearpage
+\pagenumbering{Roman}
+\tableofcontents
+\listoffigures
+%\listoftables
+%\input{kapitel/Abkuerzungen.tex}
+
+\newpage
+\pagenumbering{arabic}
+
+
+% Einbinden der content Datein
+%\input{Kapitel/.tex}
+\input{Ziel.tex}
+\input{Bedingungen.tex}
+\input{UNO.tex}
+\input{Software.tex}
+%\input{kapitel/Einleitung.tex}
+
+%\input{kapitel/Zusammenfassung.tex}
+
+
+\printbibliography
+\input{kapitel/Anhang.tex}
+
+\end{document}          
