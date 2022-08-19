@@ -20,7 +20,7 @@ numbers=noenddot,			% Kapitelnummern ohne Punkt
 
 \begin{document}
 	
-\setcounter{tocdepth}{1} % Tiefe des Inhaltsverzeichnisses definiert
+\setcounter{tocdepth}{2} % Tiefe des Inhaltsverzeichnisses definiert
 
 \input{style/Deckblatt}
 \clearpage
@@ -28,7 +28,7 @@ numbers=noenddot,			% Kapitelnummern ohne Punkt
 \tableofcontents
 \listoffigures
 %\listoftables
-%\input{kapitel/Abkuerzungen.tex}
+%\input{Abkuerzungen.tex}
 
 \newpage
 \pagenumbering{arabic}
@@ -36,14 +36,14 @@ numbers=noenddot,			% Kapitelnummern ohne Punkt
 
 % Einbinden der content Datein
 %\input{Kapitel/.tex}
+\input{Einleitung.tex}
 \input{Ziel.tex}
 \input{Bedingungen.tex}
 \input{UNO.tex}
 \input{Software.tex}
-%\input{kapitel/Einleitung.tex}
 
-%\input{kapitel/Zusammenfassung.tex}
-
+\input{Zusammenfassung.tex}
+\input{Ausblick.tex}
 
 \printbibliography
 \input{kapitel/Anhang.tex}
