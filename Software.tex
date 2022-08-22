@@ -1,7 +1,7 @@
 %!TEX root = Uno-Dokumentation.tex
 
 \chapter{Software}
-Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Der vollständige Programmcode und jegliche Projektdateien befinden sich im Anhang. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C++}. Für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (WPF) verwendet. Mit der \textit{WPF} können mithilfe einer sogenannten \textit{Markup Language} (XAML) einfache grafische Benutzeroberflächen programmiert werden.
+Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Der vollständige Programmcode und jegliche Projektdateien befinden sich im Anhang. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C\#}. Für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (\textit{WPF}) verwendet. Mit der \textit{WPF} können mithilfe einer sogenannten \textit{Markup Language} (\textit{XAML}) einfache grafische Benutzeroberflächen programmiert werden. Die in \textit{XAML} programmierten grafischen Elemente können mit \textit{C\#}-Code verändert werden. Somit hat die logische Implementierung durch \textit{C\#} einen Einfluss auf die grafische Darstellung durch \textit{XAML} \cite{WPF}.
 \section{Grundlegender Aufbau}
 In diesem Kapitel wird auf den Aufbau der gesamten Software eingegangen und soll einen Überblick über das Projekt geben. Abbildung \ref{fig:aufbau} zeigt die Menüführung der Software als Blockdiagramm. 
 \begin{figure}[h]
@@ -68,7 +68,9 @@ Codeausschnitt \ref{code:stack} zeigt den grundsätzlichen Aufbau der \textit{Ca
 \end{lstlisting}
 \subsection{GameServer}
 Der \textit{GameServer} ist das Herzstück der Anwendung. Er verarbeitet jegliche Spiellogik und Anfragen von Clients aller Spieler. Im folgenden wird genauer auf die Klasse eingegangen.\\
-Für die Server-Client-Verbindung wird ein sogenanntes \textit{NuGet-Paket} verwendet, welches compilierten Code enthält, der in externen Projekten verwendet werden kann \cite{NuGet}. Im Rahmen dieser Arbeit wird das \textit{SuperSimpleTCP}-Paket verwendet. Es enthält alle Klassen und Methoden, um einfache Server-Client-Verbindungen über das TCP-Protokoll herzustellen.\\
+Für die Server-Client-Verbindung wird ein sogenanntes \textit{NuGet-Paket} verwendet, welches compilierten Code enthält, der in externen Projekten verwendet werden kann 
+\cite{Nuget}. 
+Im Rahmen dieser Arbeit wird das \textit{SuperSimpleTCP}-Paket verwendet. Es enthält alle Klassen und Methoden, um einfache Server-Client-Verbindungen über das TCP-Protokoll herzustellen.\\
 %TODO TCP acro
 Codeausschnitt \ref{code:gameserver} zeigt einen Ausschnitt der \textit{GameServer}-Klasse. Es handelt sich dabei um eine statische Klasse, da der Server zu jedem Zeitpunkt verfügbar sein muss und nur eine einzige Instanz der Klasse benötigt wird. Der Klassen-Member \textit{server} beinhaltet alle Server-Funktionalitäten. Mit der Methode \textit{StartServer()} wird ein neuer Server gestartet und die Event-Methoden in Zeile 11 - 13 an die entsprechenden Server-Events angefügt. Wird nun ein Datenpaket empfangen, so wird ein neuer Thread gestartet, indem das eingehende Datenpaket entsprechend seines Inhalts verarbeitet wird. Die private Klasse \textit{RxMsg} dient zur Verarbeitung der Nachricht. Mit der Methode \textit{Stop()} werden aktive Verbindungen getrennt und der Server gestoppt. Wird eine neue Verbindung eines Clients zum Server festgestellt, wird der Client dazu aufgefordert den auf der Registierungsseite eingegebenen Namen zum Server zu schicken. Es wird geprüft, ob der Name von einem anderen schon verbundenen Spieler genutzt wird. Ist dies der Fall, so wird an den Namen ein Ausrufezeichen angehängt und an den Client zurückgeschickt. Nach der Namensprüfung wird der Spieler zu der Liste \textit{AllPlayers} hinzugefügt. Wird eine bestehende Verbindung getrennt, wird der entsprechende Spieler wieder von der Liste entfernt. Bei jeder neuen Verbindung wird geprüft, ob die Zielanzahl von vier Spielern erreicht ist, also ob die Liste \textit{AllPlayers} vier Elemente enthält. Ist dies der Fall wird eine Nachricht mithilfe der Methode \textit{serverBroadcast()} an alle verbundenen Clients gesendet, die den Start des Spiels signalisiert. Daraufhin wird serverseitig das Spiel gestartet, d.h. alle Spielkarten werden generiert und in der Liste \textit{AllCards} gespeichert, eine zufällige Karte aus \textit{AllCrards} auf den in der Tischmitte liegenden Stapel (\textit{MiddleStack}) verschoben und jeweils sieben Karten an jeden Client gesendet. Die Variable \textit{activePlayer} steht für den Spieler, der gerade am Zug ist.
 \begin{lstlisting}[label={code:gameserver}, caption={Codeausschnitt Klasse \textit{GameServer}}]
@@ -101,7 +103,7 @@ Codeausschnitt \ref{code:gameserver} zeigt einen Ausschnitt der \textit{GameServ
 		}
 	}
 \end{lstlisting}
-\subsection{Client}
+\subsection{GameClient}
 Jeder Spieler ist automatisch ein Client. Lediglich der Spieler der das Spiel als Gastgeber (Host) startet, startet einen Server und verbindet sich dann als Client mit dem eigenen Server. Die Klasse \textit{GameClient} wird für die Kommunikation mit dem Server verwendet. Codeausschnitt \ref{code:client} zeigt einen Ausschnitt der Klasse. Die Klasse verarbeitet eingehende Datenpakete vom Server und stellt Anfragen an ihn. Die Klasse ist überwiegend Event-gesteuert. Die Klassen-Member \textit{myName} und \textit{myCards} entsprechen den Membern \text{Name} und \textit{CardStack} der Klasse Player. Wegen einer großen Umstrukturierung des Programmcodes, sind diese Member doppelt vorhanden. Sinnvoller wäre es einen Member der Klasse \textit{Player} zu inkludieren. Der Member \textit{client} beinhaltet, ähnlich wie bei der Klasse \textit{GameServer}, alle nötigen Methoden für die Verbindung mit einem Server und die Kommunikation mit diesem.
 \begin{lstlisting}[label=code:client, caption={Codeausschnitt Klasse GameClient}]
  	static class GameClient
@@ -152,7 +154,7 @@ Die Software muss nicht installiert werden, sondern kann direkt durch das Öffne
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[width=0.6\linewidth]{Registration-Page-mark.png}
-		\label{fig:regipage-mark}
 		\caption{Registrierungsseite - Spiel mit neuem Server starten}
+		\label{fig:regipage-mark}
 	\end{center}
 \end{figure}
