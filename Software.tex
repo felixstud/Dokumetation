@@ -1,7 +1,7 @@
 %!TEX root = Uno-Dokumentation.tex
 
 \chapter{Software}
-
+Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C++}. Für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (WPF) verwendet. Mit der \textit{WPF} können mithilfe von ein sogenannten \textit{Markup Language} einfache grafische Benutzeroberflächen programmiert werden.
 \section{Grundlegender Aufbau}
 In diesem Kapitel wird auf den Aufbau der gesamten Software eingegangen und soll einen Überblick über das Projekt geben. Abbildung \ref{fig:aufbau} zeigt die Menüführung der Software als Blockdiagramm. 
 \begin{figure}[h]
@@ -13,8 +13,27 @@ In diesem Kapitel wird auf den Aufbau der gesamten Software eingegangen und soll
 \end{figure}
 Wird die Software gestartet, so wird die Startseite aufgerufen. Hier kann der Spieler das Spiel beenden, starten oder die Spielregeln einsehen. Wird das Spiel gestartet öffnet sich die Registrierungsseite. Hier wird der Spieler dazu aufgefordert seinen Namen einzugeben. Der Name wird dazu verwendet, um später im Spiel zu identifizieren welcher Spieler gerade am Zug ist. Für die Eingabe des Namens steht ein Textfeld zur Verfügung, welches auf maximal 20 einzugebende Zeichen begrenzt ist. Startet der Spieler das Spiel, so wird standardmäßig versucht eine Verbindung zu einem bestehenden Server aufzubauen. Wird jedoch ein Häkchen auf der Registrierungsseite gesetzt, so kann ein neuer Server gestartet werden. Nach der Registrierung wird der Spieler in einen Wartebereich geleitet. Dort wird auf die anderen drei Spieler gewartet. Entsprechende Benutzerrückmeldungen zeigen den aktuellen Status der Netzwerkverbindung und neu verbundene oder getrennte Spieler. Der Wartebereich wird automatisch verlassen, wenn vier Spieler erfolgreich mit dem Server verbunden sind. Ist dies der Fall, öffnet sich der Spielbereich. In diesem Bereich wird das Spiel gespielt. Je nach dem ob der Spieler die Runde gewinnt oder verliert, öffnet sich eine entsprechende Seite, auf der das Ergebnis gezeigt wird. Bei den Spielern, die verloren haben, wird der Name des Spielers gezeigt der die Runde gewonnen hat. Die Software kann an diesem Punkt nur noch beendet werden. Um eine neue Runde zu starten muss auch die Software neu gestartet werden.
 \section{Klassen}
+Wie im Kapitel \ref{ch:bedingungen} in den Hauptbedingungen definiert, ist die objektorientierte Programmierung eine Voraussetzung für das Projekt. Durch diese Programmier-Art können komplexe, reale Sachverhalte verhältnismäßig einfach in Programmcode umgesetzt werden. In den folgenden Unterkapitel wird auf die verwendeten Klassen eingegangen und Funktionsweisen erläutert.
 \subsection{Player}
+Die Klasse \textit{Player} bildet einen Spieler ab. Der Spieler im echten Leben hat einen Namen, einen Sitzplatz am Tisch und einige Karten in der Hand. Nach diesem Prinzip ist auch die Klasse aufgebaut. Codeausschnitt \ref{code:player} zeigt einen Ausschnitt aus der Klasse. Die Variable \textit{Name} beinhaltet den Namen des Spielers, die Variable \textit{ip\_port} beinhaltet den virtuellen Sitzplatz, also die IP-Adresse inklusive Port und die Variable \textit{CardStack} beinhaltet die Handkarten des Spielers. Auf die Klasse \textit{CardStack} wird später im Kapitel \ref{ch:card} näher eingegangen. Die Klasse besitzt nur zwei Konstruktoren und keine Methoden. Die beiden Variablen \textit{NameLabel} und \textit{NumberLabel} werden im weiteren Verlauf nicht verwendet, können jedoch dazu genutzt werden, um ein entsprechendes WPF-Label einem Spieler fest zuzuordnen.
+\begin{lstlisting}[label=code:player, caption={Codeauschnitt Klasse \textit{Player}}]
+ 	public class Player
+	{
+		public Player(string name, string ip_port)
+		public Player() : this("?", "?") { }
+		
+		
+		public string Name { get; set; }
+		public string ip_port { get; set; }
+		public CardStack CardStack;
+		public Label NameLabel;
+		public Label NumberLabel;
+	}
+\end{lstlisting}
+Natürlich hat ein Spieler auch die Möglichkeit eine Karte zu legen oder zu ziehen. Diese Funktionen befinden sich im Hauptprogramm. Um den Code noch besser zu gestalten, wäre es sinnvoll diese als Methoden der Klasse hinzuzufügen.
+
 \subsection{Card / CardStack}
+\label{ch:card}
 Die Spielkarten spielen eine essentielle Rolle. Aus diesem Grund werden zwei Klassen für den Umgang mit den einzelnen Karten (\textit{Card}) und einem Kartenstapel (\textit{CardStack}) verwendet. Zunächst wird die Klasse \textit{Card} für eine einzelne Karte betrachtet. Wie in Kapitel \ref{ch:bedingungen} beschrieben, werden nur einfache Karten programmiert. Sie bestehen aus einer Farbe, repräsentiert durch einen ganzzahligen Zahlenwert zwischen null und drei und einer Zahl zwischen null und neun. Codeausschnitt \ref{code:card} zeigt einen Ausschnitt der Klasse \textit{Card}. Weitere Attribute werden für eine einfache Karte nicht benötigt. Die Klasse kann jedoch erweitert werden um Spezialkarten repräsentieren zu können.
 \begin{lstlisting}[label={code:card}, caption={Codeausschnitt Klasse \textit{Card}}]
 	public class Card
@@ -47,7 +66,6 @@ Codeausschnitt \ref{code:stack} zeigt den grundsätzlichen Aufbau der \textit{Ca
 		public int getCounter();
 	}
 \end{lstlisting}
-\subsection{Client}
 \subsection{GameServer}
 Der \textit{GameServer} ist das Herzstück der Anwendung. Er verarbeitet jegliche Spiellogik und Anfragen von Clients aller Spieler. Im folgenden wird genauer auf die Klasse eingegangen.\\
 Für die Server-Client-Verbindung wird ein sogenanntes \textit{NuGet-Paket} verwendet, welches compilierten Code enthält, der in externen Projekten verwendet werden kann \cite{NuGet}. Im Rahmen dieser Arbeit wird das \textit{SuperSimpleTCP}-Paket verwendet. Es enthält alle Klassen und Methoden, um einfache Server-Client-Verbindungen über das TCP-Protokoll herzustellen.\\
@@ -82,4 +100,50 @@ Codeausschnitt \ref{code:gameserver} zeigt einen Ausschnitt der \textit{GameServ
 			private bool checkMovePossibility(int number, int color);
 		}
 	}
+\end{lstlisting}
+\subsection{Client}
+Jeder Spieler ist automatisch ein Client. Lediglich der Spieler der das Spiel als Gastgeber (Host) startet, startet einen Server und verbindet sich dann als Client mit dem eigenen Server. Die Klasse \textit{GameClient} wird für die Kommunikation mit dem Server verwendet. Codeausschnitt \ref{code:client} zeigt einen Ausschnitt der Klasse. Die Klasse verarbeitet eingehende Datenpakete vom Server und stellt Anfragen an ihn. Die Klasse ist überwiegend Event-gesteuert. Die Klassen-Member \textit{myName} und \textit{myCards} entsprechen den Membern \text{Name} und \textit{CardStack} der Klasse Player. Wegen einer großen Umstrukturierung des Programmcodes, sind diese Member doppelt vorhanden. Sinnvoller wäre es einen Member der Klasse \textit{Player} zu inkludieren. Der Member \textit{client} beinhaltet, ähnlich wie bei der Klasse \textit{GameServer}, alle nötigen Methoden für die Verbindung mit einem Server und die Kommunikation mit diesem.
+\begin{lstlisting}[label=code:client, caption={Codeausschnitt Klasse GameClient}]
+ 	static class GameClient
+	{
+		public static string myName;
+		public static CardStack myCards = new CardStack();
+		public static SimpleTcpClient client = new SimpleTcpClient(Globals.ipport);
+		
+		public static bool find_server();
+		public static void Stop();
+		public static void RequestServer(string data);
+		
+		private static void Events_Disconnected(object? sender, ConnectionEventArgs e);
+		private static void Events_Connected(object? sender, ConnectionEventArgs e);
+		private static void Events_DataReceived_Client(object? sender, DataReceivedEventArgs e)
+		{
+			string msg = Encoding.UTF8.GetString(e.Data);
+			if(msg.Contains("!counter!"))
+			...
+			else if(msg.Contains("!card!"))
+			{
+				msg = msg.Remove(0, 6);
+				Card c = new Card(msg[0] - 48, msg[1] - 48);
+				Events.CardReceivedEvent(e.IpPort, c, false, false);
+			}
+			...
+		}
+	public static class Events
+	{...}
+	...
+	}
+\end{lstlisting}
+Eingehende Nachrichten vom Server werden mit der Methode \textit{Events\_DataReceived\_Client(...)} verarbeitet. Insgesamt können zehn verschiedene Nachrichten ausgewertet werden. Sieben davon lösen ein Event im Hauptprogramm aus. Codeausschnitt \ref{code:client-events} zeigt die Klasse \textit{Events}, welche sieben \textit{events}, beinhaltet, an die im Hauptprogramm Methoden gebunden werden können. Die angebundenen Methoden werden durch einen einfach Aufruf der Event-Methode innerhalb der Klasse im Hauptprogramm aufgerufen. Dadurch wird keine permanente Abfrage von Parametern benötigt. Die Methode im Hauptprogramm wird nur aufgerufen, wenn der bestimmte Fall eingetreten ist. Das sorgt für weniger Rechenaufwand während der Laufzeit des Programms. Jeder Event-Methode werden dem entsprechenden Fall, Parameter übergeben, welche im Hauptprogramm genutzt werden können. Wird beispielsweise eine Karte vom Server empfangen, so kann die Karte im Hauptprogramm an entsprechender Stelle angezeigt werden. 
+\begin{lstlisting}[label=code:client-events, caption={Codeauschnitt Client Events}]
+	public static class Events
+	{
+		public static event EventHandler<CardReceivedEventArgs> CardReceived;
+		public static event EventHandler<PlayerReceivedEventArgs> PlayerReceived;
+		public static event EventHandler<StatusChangedEventArgs> StatusChanged;
+		public static event EventHandler<ConnectionCounterChangedEventArgs> ConnectionCounterChanged;
+		public static event EventHandler<EnemyNameReceivedEventArgs> EnemyPlayerNameReceived;
+		public static event EventHandler<MoveEventArgs> MoveReceived;
+		public static event EventHandler<WinEventArgs> WinnerReceived;
+	}	
 \end{lstlisting}
