@@ -1,7 +1,7 @@
 %!TEX root = Uno-Dokumentation.tex
 
 \chapter{Software}
-Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C++}. Für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (WPF) verwendet. Mit der \textit{WPF} können mithilfe von ein sogenannten \textit{Markup Language} einfache grafische Benutzeroberflächen programmiert werden.
+Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Der vollständige Programmcode und jegliche Projektdateien befinden sich im Anhang. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C++}. Für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (WPF) verwendet. Mit der \textit{WPF} können mithilfe einer sogenannten \textit{Markup Language} (XAML) einfache grafische Benutzeroberflächen programmiert werden.
 \section{Grundlegender Aufbau}
 In diesem Kapitel wird auf den Aufbau der gesamten Software eingegangen und soll einen Überblick über das Projekt geben. Abbildung \ref{fig:aufbau} zeigt die Menüführung der Software als Blockdiagramm. 
 \begin{figure}[h]
@@ -147,3 +147,12 @@ Eingehende Nachrichten vom Server werden mit der Methode \textit{Events\_DataRec
 		public static event EventHandler<WinEventArgs> WinnerReceived;
 	}	
 \end{lstlisting}
+\subsection{Installationsanweisung}
+Die Software muss nicht installiert werden, sondern kann direkt durch das Öffnen der sich im Anhang befindlichen, ausführbaren \textit{.exe}-Datei gestartet werden. Um ein Spiel spielen zu können, ist es notwendig, dass die Software insgesamt vier Mal im gleichen Netzwerk gestartet wird. Eine Instanz muss dabei als Server gestartet werden. Dazu muss auf der Registrierungsseite das Häkchen bei \textit{Server} gesetzt werden, welches in der Abbildung \ref{fig:regipage-mark} markiert ist.
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{Registration-Page-mark.png}
+		\label{fig:regipage-mark}
+		\caption{Registrierungsseite - Spiel mit neuem Server starten}
+	\end{center}
+\end{figure}
