@@ -1,7 +1,7 @@
 %!TEX root = Uno-Dokumentation.tex
 
 \chapter{Software}
-Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Der vollständige Programmcode und jegliche Projektdateien befinden sich im Anhang. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C\#}. Für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (\textit{WPF}) verwendet. Mit der \textit{WPF} können mithilfe einer sogenannten \textit{Markup Language} (\textit{XAML}) einfache grafische Benutzeroberflächen programmiert werden. Die in \textit{XAML} programmierten grafischen Elemente können mit \textit{C\#}-Code verändert werden. Somit hat die logische Implementierung durch \textit{C\#} einen Einfluss auf die grafische Darstellung durch \textit{XAML} \cite{WPF}.
+Der Programmcode kann schnell eine sehr große Größe annehmen. Im Rahmen dieser Arbeit wird nur auf die essentiellen Punkte eingegangen und diese erläutert. Der vollständige Programmcode und jegliche Projektdateien befinden sich im Anhang. Die Software ist mit der Entwicklungsumgebung \textit{Microsoft Visual Studio 2022} erstellt. Die gewählte Programmiersprache ist \textit{C\#} und für die visuelle Darstellung der Spiel- und Benutzeroberfläche wird die \text{Windows presentation foundation} (\textit{WPF}) verwendet. Mit der \textit{WPF} können mithilfe einer sogenannten \textit{Markup Language} (\textit{XAML}) einfache grafische Benutzeroberflächen programmiert werden. Die in \textit{XAML} programmierten grafischen Elemente können mit \textit{C\#}-Code verändert werden. Somit hat die logische Implementierung durch \textit{C\#} einen Einfluss auf die grafische Darstellung durch \textit{XAML} \cite{WPF}.
 \section{Grundlegender Aufbau}
 In diesem Kapitel wird auf den Aufbau der gesamten Software eingegangen und soll einen Überblick über das Projekt geben. Abbildung \ref{fig:aufbau} zeigt die Menüführung der Software als Blockdiagramm. 
 \begin{figure}[h]
@@ -16,7 +16,7 @@ Wird die Software gestartet, so wird die Startseite aufgerufen. Hier kann der Sp
 Wie im Kapitel \ref{ch:bedingungen} in den Hauptbedingungen definiert, ist die objektorientierte Programmierung eine Voraussetzung für das Projekt. Durch diese Programmier-Art können komplexe, reale Sachverhalte verhältnismäßig einfach in Programmcode umgesetzt werden. In den folgenden Unterkapitel wird auf die verwendeten Klassen eingegangen und Funktionsweisen erläutert.
 \subsection{Player}
 Die Klasse \textit{Player} bildet einen Spieler ab. Der Spieler im echten Leben hat einen Namen, einen Sitzplatz am Tisch und einige Karten in der Hand. Nach diesem Prinzip ist auch die Klasse aufgebaut. Codeausschnitt \ref{code:player} zeigt einen Ausschnitt aus der Klasse. Die Variable \textit{Name} beinhaltet den Namen des Spielers, die Variable \textit{ip\_port} beinhaltet den virtuellen Sitzplatz, also die IP-Adresse inklusive Port und die Variable \textit{CardStack} beinhaltet die Handkarten des Spielers. Auf die Klasse \textit{CardStack} wird später im Kapitel \ref{ch:card} näher eingegangen. Die Klasse besitzt nur zwei Konstruktoren und keine Methoden. Die beiden Variablen \textit{NameLabel} und \textit{NumberLabel} werden im weiteren Verlauf nicht verwendet, können jedoch dazu genutzt werden, um ein entsprechendes WPF-Label einem Spieler fest zuzuordnen.
-\begin{lstlisting}[label=code:player, caption={Codeauschnitt Klasse \textit{Player}}]
+\begin{lstlisting}[label=code:player, caption={Codeausschnitt Klasse \textit{Player}}]
  	public class Player
 	{
 		public Player(string name, string ip_port)
@@ -149,7 +149,26 @@ Eingehende Nachrichten vom Server werden mit der Methode \textit{Events\_DataRec
 		public static event EventHandler<WinEventArgs> WinnerReceived;
 	}	
 \end{lstlisting}
-\subsection{Installationsanweisung}
+\section{Spiebereich}
+In diesem Kapitel wird die grafische Oberfläche des Spielbereiches erläutert. Voraussetzung dafür um diesen Bereich zu erreichen ist, dass ein Server existiert und vier Spieler mit ihm verbunden sind. Abbildung \ref{fig:gameactive} zeigt den Spielbereich für den Fall, dass der Spieler aktiv am Zug ist. Oben rechts befindet sich ein \textit{Exit}-Button mit dem das Spiel beendet werden kann. Wird der Button gedrückt, so öffnet sich ein Pop-Up-Dialog. Der Benutzer wird gefragt, ob er das Spiel wirklich verlassen will. Drückt er "Nein", wird zum Spiel zurückgekehrt, drückt er "Ja", so wird der Spieler zum Startbildschirm geleitet. In der Mitte des Fensters befindet sich der Ablagestapel. Am unteren Rand des Fenster sieht man die eigenen Handkarten. Durch einen Klick auf eine Handkarte wird diese an den Server geschickt. Der Server prüft ob die Karte auf den Ablagestapel gelegt werden kann. Ist dies der Fall, so wird die Karte von den Handkarten des Spielers entfernt und auf den Ablagestapel gelegt. Hat der Spieler keine passende Karte in den Handkarten, so muss der Button \textit{New Card} betätigt werden. Der Spieler erhält daraufhin eine zufällige Karte und der Zug wird beendet. Die Labels für die Handkarten werden beim Start des Spiels erzeugt. Aus diesem Grund können maximal 14 Handkarten gleichzeitig angezeigt werden. Um die den Ablagestapel herum befinden sich Labels mit den Namen der gegnerischen Spieler. Die Spieler sind nacheinander im Uhrzeigersinn  am Zug. Unter dem Namens-Label befindet sich ein Label mit der Anzahl der Karten, die der jeweilige Spieler auf der Hand hält. Diese Anzeige funktioniert aus unbekannten Gründen sehr unzuverlässig. Der Button \textit{UNO!} hat keine Funktion, soll aber dafür verwendet werden um anzuzeigen, dass man nur noch eine Karte auf der Hand hält. 
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{bilder/Game-Page active.png}
+		\caption{Spielbereich Aktiv}
+		\label{fig:gameactive}
+	\end{center}
+\end{figure}
+Abbildung \ref{fig:gamedeactive} zeigt den Spielbereich für den Fall, dass ein gegnerischer Spieler am Zug ist. Der Name des Spielers der gerade am Zug ist, wird durch eine grüne Markierung des Namens-Labels gekennzeichnet. Die Handkarten-Labels, sowie die beiden Buttons sind in diesem Zeitraum deaktiviert. So wird keine Anfrage an den Server gesendet, falls ein inaktiver Spieler eine seiner Handkarten anklickt. Das sorgt für weniger Anfragen beim Server. 
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[width=0.6\linewidth]{bilder/Game-Page.png}
+		\caption{Spielbereich Zug eines anderen Spielers}
+		\label{fig:gamedeactive}
+	\end{center}
+\end{figure}
+
+
+\section{Installationsanweisung}
 Die Software muss nicht installiert werden, sondern kann direkt durch das Öffnen der sich im Anhang befindlichen, ausführbaren \textit{.exe}-Datei gestartet werden. Um ein Spiel spielen zu können, ist es notwendig, dass die Software insgesamt vier Mal im gleichen Netzwerk gestartet wird. Eine Instanz muss dabei als Server gestartet werden. Dazu muss auf der Registrierungsseite das Häkchen bei \textit{Server} gesetzt werden, welches in der Abbildung \ref{fig:regipage-mark} markiert ist.
 \begin{figure}[h]
 	\begin{center}
@@ -158,3 +177,4 @@ Die Software muss nicht installiert werden, sondern kann direkt durch das Öffne
 		\label{fig:regipage-mark}
 	\end{center}
 \end{figure}
+
