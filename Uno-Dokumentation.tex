@@ -12,6 +12,8 @@ bibliography=totoc,			% Literaturverzeichnis im Inhaltsverzeichnis aufführen
 numbers=noenddot,			% Kapitelnummern ohne Punkt		
 ]{scrreprt}
 
+\usepackage{caption}
+\newcommand{\source}[1]{\caption*{Quelle: {#1}} }
 \usepackage[utf8]{inputenc}
 \input{style/_Meta}
 \input{style/Packages.tex}
@@ -27,12 +29,8 @@ numbers=noenddot,			% Kapitelnummern ohne Punkt
 \input{Gender.tex}
 \tableofcontents
 \listoffigures
-%\listoftables
-%\input{Abkuerzungen.tex}
-
 \newpage
 \pagenumbering{arabic}
-
 
 % Einbinden der content Datein
 %\input{Kapitel/.tex}
